@@ -2,6 +2,7 @@
 Description=OTP-UINPUT keyboard event daemon
 
 [Service]
+Environment='UMASK=0002'
 ExecStart=/usr/bin/otp-uinput
 User=uinput
 Group=input
