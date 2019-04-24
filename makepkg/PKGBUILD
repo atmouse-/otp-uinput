@@ -14,7 +14,7 @@ source=("${pkgname}::git+https://gitlab.com/atmouse/otp-uinput.git"
         90-uinput.rules)
 sha256sums=("SKIP"
         '662c7f82b13d1d8f9720e8085f7da9dd497f44fbc3df35ae51ae308d8299d43b'
-        '74536e0b654182e03f89139d3515788d22ecb5a5902dc8f87bd6bf565c8e7910'
+        '9fa03032cd857a5cbea97dcee6811caf13803990d6ab5e0d09b557591adee02c'
         'b0cf96696560e96471a0a89f0bbe865f00047e551cdf2c51dfff768a30dae358')
 
 build() {
