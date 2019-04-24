@@ -1,0 +1,8 @@
+[Unit]
+Description=OTP-UINPUT keyboard event daemon
+
+[Service]
+ExecStart=/usr/bin/otp-uinputd
+
+[Install]
+WantedBy=multi-user.target
