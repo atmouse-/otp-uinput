@@ -4,7 +4,7 @@ Description=OTP-UINPUT keyboard event daemon
 [Service]
 ExecStart=/usr/bin/otp-uinput
 User=uinput
-Group=uinput
+Group=input
 
 [Install]
 WantedBy=multi-user.target
