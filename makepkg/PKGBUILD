@@ -9,13 +9,9 @@ license=('custom')
 makedepends=('rustup')
 provides=("otp-uinput=$pkgver")
 source=("${pkgname}::git+https://gitlab.com/atmouse/otp-uinput.git"
-        otp-uinput.sysusers
-        otp-uinput.service
-        90-uinput.rules)
+        otp-uinput.service)
 sha256sums=("SKIP"
-        '662c7f82b13d1d8f9720e8085f7da9dd497f44fbc3df35ae51ae308d8299d43b'
-        '4852ad69168479a6a4c4e6e1dfc5dc4f133993f4f35704554e5e93a41e0da059'
-        'b0cf96696560e96471a0a89f0bbe865f00047e551cdf2c51dfff768a30dae358')
+        'fe8539953837e10190553413c2fdebd8dfc5e7e72fae76500a3cc38eb37f348c')
 
 build() {
   cd "$srcdir/$pkgname"
@@ -29,10 +25,4 @@ package() {
   install -m755 "${srcdir}/$pkgname/target/release/otp-uinput" "${pkgdir}/usr/bin/otp-uinput"
   install -m755 -d "${pkgdir}/usr/lib/systemd/system"
   install -m644 "${srcdir}/$pkgname/makepkg/otp-uinput.service" "${pkgdir}/usr/lib/systemd/system/otp-uinput.service"
-
-  # user
-  install -Dm644 "${srcdir}/$pkgname/makepkg/otp-uinput.sysusers" "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
-
-  # uinput
-  install -Dm644 "${srcdir}/$pkgname/makepkg/90-uinput.rules" "${pkgdir}/usr/lib/udev/rules.d/90-uinput.conf"
 }
