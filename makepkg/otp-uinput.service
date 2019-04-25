@@ -2,10 +2,10 @@
 Description=OTP-UINPUT keyboard event daemon
 
 [Service]
-Environment='UMASK=0002'
 ExecStart=/usr/bin/otp-uinput
 User=uinput
 Group=input
+UMask=0002
 
 [Install]
 WantedBy=multi-user.target
