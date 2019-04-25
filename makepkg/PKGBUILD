@@ -23,6 +23,6 @@ package() {
 
   install -m755 -d "${pkgdir}/usr/bin"
   install -m755 "${srcdir}/$pkgname/target/release/otp-uinput" "${pkgdir}/usr/bin/otp-uinput"
-  install -m755 -d "${pkgdir}/usr/lib/systemd/system"
-  install -m644 "${srcdir}/$pkgname/makepkg/otp-uinput.service" "${pkgdir}/usr/lib/systemd/system/otp-uinput.service"
+  install -m755 -d "${pkgdir}/usr/lib/systemd/user"
+  install -m644 "${srcdir}/$pkgname/makepkg/otp-uinput.service" "${pkgdir}/usr/lib/systemd/user/otp-uinput.service"
 }
