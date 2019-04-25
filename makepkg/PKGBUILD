@@ -11,7 +11,7 @@ provides=("otp-uinput=$pkgver")
 source=("${pkgname}::git+https://gitlab.com/atmouse/otp-uinput.git"
         otp-uinput.service)
 sha256sums=("SKIP"
-        'fe8539953837e10190553413c2fdebd8dfc5e7e72fae76500a3cc38eb37f348c')
+        '9365b438543d511beaecad3fcc8712b06acd07e110578be4d1cffe53260cf635')
 
 build() {
   cd "$srcdir/$pkgname"
