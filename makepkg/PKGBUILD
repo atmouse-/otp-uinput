@@ -8,7 +8,7 @@ arch=('x86_64')
 license=('custom')
 makedepends=('rustup')
 provides=("otp-uinput=$pkgver")
-source=("${pkgname}::git+https://gitlab.com/atmouse/otp-uinput.git"
+source=("${pkgname}::git+https://github.com/atmouse-/otp-uinput.git"
         otp-uinput.service)
 sha256sums=("SKIP"
         '9365b438543d511beaecad3fcc8712b06acd07e110578be4d1cffe53260cf635')
