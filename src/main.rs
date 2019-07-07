@@ -167,75 +167,7 @@ fn main() {
                 handle_key(stream, state.clone());
                 Ok(())
             })
-            // .fold(tx, |tx, mut stream| {
-            //     println!("fwd {:?}", stream);
-            //     let mut buf = vec![0; 1];
-
-            //     let keys = stream.read_to_end(&mut buf)
-            //                 .map_err(|e| {println!("IO Error {:?}", e)})
-            //                 .map(|_| ());
-            //     // let keys = io::read_to_end(stream, buf)
-            //     //             .map_err(|e| {println!("IO Error {:?}", e)});
-            //     //             // .map(move |(reader, buf, bytes_read)| {
-            //     //             //     ()
-            //     //             // });
-            //     // keys.wait().unwrap();
-            //     println!("got keys {}", str::from_utf8(&buf).unwrap());
-            //     // tx.send(keys).map_err(|e| panic!("Send error: {}", e))
-            //     tx.send(0).map_err(|e| panic!("Send error: {}", e))
-            // })
-            // .into_future()
-            // .and_then(move |(sock, _)| {
-            //     println!("fwd {:?}", sock);
-            //     tx.clone().send(sock.unwrap()).unwrap();
-            //     tx.send_all().unwrap();
-            //     Ok(())
-            // })
-            // .map(drop)
-        
     });
-
-    // let i = Interval::new_interval(Duration::from_millis(20))
-    //     .map_err(|e| panic!("Interval error: {}", e));
-    // let fut = rx.zip(i).for_each(move |stream| {
-    // let fut = rx.for_each(move |keys| {
-    //     println!("got {:?}", keys);
-    //     Ok(())
-    // }).map(|_| ()); // never perform here
-    // rt.spawn(fut);
-    // thread::spawn(|| {loop_inputs(rx)});
-    // let rx = rx.map(|x| {
-    //     println!("got {:?}", x);
-    //     x
-    // });
-
-    // rt.block_on(rx.into_future());
-
-    // thread::spawn(move || {
-    //     while let Ok(Async::Ready(Some(stream))) = rx.wait() {
-    //         println!("got {:?}", stream);
-    //         // thread::spawn(move || {
-    //         //     let mut rt = Runtime::new().unwrap();
-    //         //     let (_, buf) = rt.block_on(io::read_to_end(stream, vec![])).unwrap();
-    //         //     let s = match str::from_utf8(&buf) {
-    //         //         Ok(v) => {
-    //         //             println!("data {}", v);
-    //         //             v
-    //         //         },
-    //         //         Err(_) => panic!("Invalid utf8 sequence from stream"),
-    //         //     };
-                
-    //         // });
-    //     };
-    // });
-
-    // rt.spawn({
-    //     listener.poll_accept()
-    //         .into_future()
-    // });
-    // while let Ok(Async::Ready((sock, _))) = listener.poll_accept() {
-    //     println!("got {:?}", sock);
-    // };
 
 
     println!("3");
