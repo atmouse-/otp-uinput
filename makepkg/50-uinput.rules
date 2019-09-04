@@ -1,0 +1,7 @@
+ACTION=="remove", GOTO="default_end"
+
+ACTION!="add", GOTO="default_end"
+
+SUBSYSTEM=="misc", KERNEL=="uinput", GROUP="input", MODE="0664"
+
+LABEL="default_end"

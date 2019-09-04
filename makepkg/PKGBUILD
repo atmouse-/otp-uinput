@@ -9,9 +9,11 @@ license=('custom')
 makedepends=('rustup')
 provides=("otp-uinput=$pkgver")
 source=("${pkgname}::git+https://github.com/atmouse-/otp-uinput.git"
-        otp-uinput.service)
+        otp-uinput.service
+        50-uinput.rules)
 sha256sums=("SKIP"
-        '9365b438543d511beaecad3fcc8712b06acd07e110578be4d1cffe53260cf635')
+        '9365b438543d511beaecad3fcc8712b06acd07e110578be4d1cffe53260cf635'
+        'ff9344238dcb1e91b902cd011d8407b5c88ac605085723acf64a104e27f53080')
 
 build() {
   cd "$srcdir/$pkgname"
