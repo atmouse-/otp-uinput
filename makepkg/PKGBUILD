@@ -3,7 +3,7 @@
 pkgname=otp-uinput
 pkgdesc="otp-uinput daemon"
 pkgver=0.1
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 license=('custom')
 makedepends=('rustup')
@@ -25,4 +25,5 @@ package() {
   install -m755 "${srcdir}/$pkgname/target/release/otp-uinput" "${pkgdir}/usr/bin/otp-uinput"
   install -m755 -d "${pkgdir}/usr/lib/systemd/user"
   install -m644 "${srcdir}/$pkgname/makepkg/otp-uinput.service" "${pkgdir}/usr/lib/systemd/user/otp-uinput.service"
+  install -m644 "${srcdir}/$pkgname/makepkg/50-uinput.rules" "${pkgdir}/usr/lib/udev/rules.d/50-uinput.rules"
 }
