@@ -5,4 +5,4 @@ Description=OTP-UINPUT keyboard event daemon
 ExecStart=/usr/bin/otp-uinput
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

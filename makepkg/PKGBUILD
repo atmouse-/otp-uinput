@@ -12,7 +12,7 @@ source=("${pkgname}::git+https://github.com/atmouse-/otp-uinput.git"
         otp-uinput.service
         50-uinput.rules)
 sha256sums=("SKIP"
-        '9365b438543d511beaecad3fcc8712b06acd07e110578be4d1cffe53260cf635'
+        '83e1b6a3c34d988c57fa07e8b072c2ad12b245bdce363b8d2f0977c1111039ab'
         '2fc16e37010f8ed70d09604683ef1e11a98f351f4b6e65670135130e73a30f0f')
 
 build() {
