@@ -1,6 +1,6 @@
 [package]
 name = "otp-uinput"
-version = "0.1.0"
+version = "0.1.9"
 authors = ["jingjiezhuang <jingjie.zhuang@igg.com>"]
 edition = "2018"
 
