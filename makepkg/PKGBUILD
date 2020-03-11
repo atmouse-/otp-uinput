@@ -2,7 +2,7 @@
 
 pkgname=otp-uinput
 pkgdesc="otp-uinput daemon"
-pkgver=0.1.9
+pkgver=0.2.0
 pkgrel=1
 arch=('x86_64')
 license=('custom')
