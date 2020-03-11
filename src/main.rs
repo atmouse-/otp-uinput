@@ -4,6 +4,7 @@ extern crate tokio;
 extern crate tokio_uds;
 extern crate bytes;
 extern crate uinput;
+extern crate libc;
 
 mod input;
 
@@ -32,7 +33,10 @@ use bytes::{BufMut, BytesMut};
 
 use uinput::event::keyboard;
 
-const SOCK_PATH: &'static str = "/tmp/otp-uinput";
+fn get_user_sock_path() -> String {
+    let uid = unsafe { libc::getuid() };
+    format!("/run/user/{}/otp-uinput", uid)
+}
 
 struct Shared {
     input: input::Uinput,
@@ -143,11 +147,12 @@ fn handle_key(stream: UnixStream, state: Arc<Mutex<Shared>>) {
 fn main() {
     let mut rt = Runtime::new().unwrap();
 
-    let listener = match UnixListener::bind(SOCK_PATH) {
+    let sock_path = get_user_sock_path();
+    let listener = match UnixListener::bind(&sock_path) {
         Ok(m) => m,
         Err(_) => {
-            fs::remove_file(SOCK_PATH).unwrap();
-            UnixListener::bind(SOCK_PATH).unwrap()
+            fs::remove_file(&sock_path).unwrap();
+            UnixListener::bind(&sock_path).unwrap()
         }
     };
     let (tx, rx) = mpsc::channel::<u8>(1024);
