@@ -7,6 +7,7 @@ extern crate uinput;
 extern crate libc;
 
 mod input;
+mod mouse;
 
 use std::thread;
 use std::fs;
@@ -16,6 +17,7 @@ use tokio::timer::Interval;
 use std::io::{Read};
 use std::sync::{Arc, Mutex};
 // use std::sync::mpsc;
+use std::str::FromStr;
 
 use tokio::io;
 use tokio::prelude::*;
@@ -40,12 +42,14 @@ fn get_user_sock_path() -> String {
 
 struct Shared {
     input: input::Uinput,
+    mouse: mouse::Uinput,
 }
 
 impl Shared {
     fn new() -> Self {
         Shared {
             input: input::Uinput::new(),
+            mouse: mouse::Uinput::new(),
         }
     }
 }
@@ -124,15 +128,35 @@ fn handle_key(stream: UnixStream, state: Arc<Mutex<Shared>>) {
             println!("name {:?} got", name);
             println!("keys second {:?} got", keys.rd);
 
-            if keys.rd.len() != 1 {
-                println!("unexpect key length");
-                return Either::B(future::ok(()));
-            }
+            match String::from_utf8_lossy(&name).to_string().as_str() {
+                "aaaa" => {
+                    if keys.rd.len() != 1 {
+                        println!("unexpect key length");
+                        return Either::B(future::ok(()));
+                    }
+                    let first_num = keys.rd[0];
+                    let mut k = state.lock().unwrap();
+                    k.input.keyin(first_num);
+                },
+                "posrel" => {
+                    // TODO: fix x, y values unwrap
+                    let entry = String::from_utf8_lossy(&keys.rd).to_string();
+                    let mut split = entry.split(",");
+                    let _x = split.next().unwrap();
+                    let _y = split.next().unwrap();
+                    let x: i32 = i32::from_str(_x).unwrap();
+                    let y: i32 = i32::from_str(_y).unwrap();
+                    let mut k = state.lock().unwrap();
+                    k.mouse.mouse_pos(x, y);
+                },
+                "mouseclick" => {
+                    let mut k = state.lock().unwrap();
+                    k.mouse.mouse_click();
+                },
+                _ => {
 
-            {
-                let first_num = keys.rd[0];
-                let mut k = state.lock().unwrap();
-                k.input.keyin(first_num);
+                }
+
             }
 
             Either::B(future::ok(()))
