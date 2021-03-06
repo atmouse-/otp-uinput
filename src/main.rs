@@ -19,6 +19,7 @@ use std::sync::{Arc, Mutex};
 // use std::sync::mpsc;
 use std::str::FromStr;
 
+use structopt::StructOpt;
 use tokio::io;
 use tokio::prelude::*;
 use tokio::runtime::current_thread::Runtime;
@@ -46,10 +47,10 @@ struct Shared {
 }
 
 impl Shared {
-    fn new() -> Self {
+    fn new(mouse_max: Option<(i32, i32)>) -> Self {
         Shared {
             input: input::Uinput::new(),
-            mouse: mouse::Uinput::new(),
+            mouse: mouse::Uinput::new(mouse_max),
         }
     }
 }
@@ -149,6 +150,17 @@ fn handle_key(stream: UnixStream, state: Arc<Mutex<Shared>>) {
                     let mut k = state.lock().unwrap();
                     k.mouse.mouse_pos(x, y);
                 },
+                "posabs" => {
+                    // TODO: fix x, y values unwrap
+                    let entry = String::from_utf8_lossy(&keys.rd).to_string();
+                    let mut split = entry.split(",");
+                    let _x = split.next().unwrap();
+                    let _y = split.next().unwrap();
+                    let x: i32 = i32::from_str(_x).unwrap();
+                    let y: i32 = i32::from_str(_y).unwrap();
+                    let mut k = state.lock().unwrap();
+                    k.mouse.mouse_abs(x, y);
+                },
                 "mouseclick" => {
                     let mut k = state.lock().unwrap();
                     k.mouse.mouse_click();
@@ -168,8 +180,27 @@ fn handle_key(stream: UnixStream, state: Arc<Mutex<Shared>>) {
     tokio::spawn(connection);
 }
 
+#[derive(Debug, StructOpt)]
+#[structopt(name = "otp-uinput", about = "otp-uinput usage.")]
+struct Opt {
+    /// Activate debug mode
+    // short and long flags (-d, --debug) will be deduced from the field's name
+    #[structopt(short, long)]
+    debug: bool,
+
+    /// Max value for uinput ABS_X event
+    #[structopt(short = "x", long = "abs-x-max")]
+    abs_x_max: Option<u16>,
+
+    /// Max value for uinput ABS_Y event
+    #[structopt(short = "y", long = "abs-y-max")]
+    abs_y_max: Option<u16>,
+}
+
 fn main() {
     let mut rt = Runtime::new().unwrap();
+
+    let opt = Opt::from_args();
 
     let sock_path = get_user_sock_path();
     let listener = match UnixListener::bind(&sock_path) {
@@ -180,7 +211,15 @@ fn main() {
         }
     };
     let (tx, rx) = mpsc::channel::<u8>(1024);
-    let state = Arc::new(Mutex::new(Shared::new()));
+    let state = Arc::new(Mutex::new(Shared::new(
+        match opt.abs_x_max {
+            Some(abs_x_max) => {Some((
+                abs_x_max as i32,
+                opt.abs_y_max.unwrap_or(0) as i32
+            ))},
+            None => None
+        }
+    )));
     // rt.spawn({
     //     tx.into_future()
     //     .send(3)
